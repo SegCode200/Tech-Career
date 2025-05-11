@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,18 +14,20 @@ const Header = () => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-6 text-black font-medium">
           <a href="/" className="hover:text-gray-500">Home</a>
-          <a href="/about" className="hover:text-gray-500">About</a>
-          <a href="/contact" className="hover:text-gray-500">Contact</a>
+          <a href="/#" className="hover:text-gray-500">About</a>
+          <a href="/#" className="hover:text-gray-500">Contact</a>
         </nav>
 
         {/* Action Button (Always Visible) */}
         <div className="hidden md:flex">
-          <a
-            href="/instructions"
+           <Link to={"/instructions"}>
+          <div
+
             className="bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white px-4 py-2 rounded-3xl font-medium hover:opacity-90 transition"
           >
             Get Started
-          </a>
+          </div>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}

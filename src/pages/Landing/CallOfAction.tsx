@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export default function CallToAction() {
   return (
@@ -16,12 +17,13 @@ export default function CallToAction() {
         <p className="mb-8 text-lg">
           Take our personalized assessment and get career insights tailored to you.
         </p>
-        <a
-          href="/instructions"
+        <Link to={"/instructions"}>
+        <div
           className="inline-block bg-white text-purple-700 font-semibold px-6 py-3 rounded-full shadow hover:bg-gray-100 transition"
         >
           Start the Assessment
-        </a>
+        </div>
+        </Link>
       </motion.div>
     </section>
   );

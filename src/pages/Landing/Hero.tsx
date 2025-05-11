@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const items = [
@@ -42,15 +43,16 @@ const Hero = () => {
            
       Feeling Stuck in Your Career? Unsure about your next step? At <span className="font-semibold">CareerTraits</span>, we help you uncover the tech path that aligns with your strengths, interests, and goals—so you can move forward with confidence.
         </motion.p>
-        <motion.a
-          href="/instructions"
+        <Link to={"/instructions"}>
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-6 bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition"
         >
           Get Started
-        </motion.a>
+        </motion.div>
+        </Link>
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
