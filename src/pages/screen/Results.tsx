@@ -57,7 +57,7 @@ export default function ResultsPage() {
           className="mt-10 text-center"
         >
           <a
-            href="/explore"
+            href="#"
             className="inline-block bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition"
           >
             Explore Careers

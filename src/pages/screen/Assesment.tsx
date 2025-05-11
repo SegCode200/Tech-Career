@@ -53,7 +53,7 @@ export default function AssessmentPage() {
       setCurrentIndex(currentIndex + 1);
     } else {
       // Final submit
-      const result = calculateCareerMatch(answers);
+      const result = calculateCareerMatch();
       navigate("/results", { state: { result } });
     }
   };
@@ -62,7 +62,7 @@ export default function AssessmentPage() {
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
   };
 
-  const calculateCareerMatch = (answers:any) => {
+  const calculateCareerMatch = () => {
     // Replace this with real scoring logic
     return [
       {
