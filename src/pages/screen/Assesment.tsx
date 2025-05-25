@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import {useQuestions} from "../../hooks/useQuestions"
+import { ToastContainer, toast } from 'react-toastify';
 
 // Dummy Questions
 
@@ -20,7 +21,6 @@ export default function AssessmentPage() {
     }
   }, [questions]);
 
-
   const currentQuestion = questions[currentIndex];
   const progressPercent = ((currentIndex + 1) / questions.length) * 100;
 
@@ -33,16 +33,26 @@ export default function AssessmentPage() {
 
   const handleNext = () => {
     if (answers[currentIndex] === null) {
-      alert("Please select an answer before continuing.");
+      toast.error('Please select an answer before continuing.');
       return;
     }
 
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // Final submit
-      const result = calculateCareerMatch();
-      // navigate("/results", { state: { result } });
+      const responses = questions.map((q, i) => ({
+        questionId: q.id,
+        optionIndex: answers[i]
+      }));
+      console.log(responses)
+      navigate('/submit', {
+        state: {
+          responses: questions.map((q, i) => ({
+            questionId: q.id,
+            optionIndex: answers[i]
+          }))
+        }
+      });
     }
   };
 
@@ -67,27 +77,7 @@ export default function AssessmentPage() {
       </div>
     );
   }
-  console.log(answers)
-  const calculateCareerMatch = () => {
-    // Replace this with real scoring logic
-    return [
-      {
-        career: "UI/UX Designer",
-        match: 90,
-        description: "Designs intuitive user interfaces and experiences.",
-      },
-      {
-        career: "Software Developer",
-        match: 85,
-        description: "Builds functional apps and systems through code.",
-      },
-      {
-        career: "Product Manager",
-        match: 78,
-        description: "Leads product planning and cross-functional teams.",
-      },
-    ];
-  };
+ 
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
@@ -153,6 +143,17 @@ export default function AssessmentPage() {
           </button>
         </div>
       </motion.div>
+          <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

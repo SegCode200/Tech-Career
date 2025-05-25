@@ -5,6 +5,7 @@ import LandIingScreen from "../pages/Landing/LandIingScreen";
 import InstructionsPage from "../pages/screen/InstructionsPage";
 import AssessmentPage from "../pages/screen/Assesment";
 import ResultsPage from "../pages/screen/Results";
+import SubmitPage from "../pages/screen/SubmitPage";
 
 
 export const mainRoute = createBrowserRouter([
@@ -30,5 +31,9 @@ export const mainRoute = createBrowserRouter([
   {
     path: "/results",
     element: <ResultsPage/>
+  },
+  {
+    path: "/submit",
+    element: <SubmitPage/>
   }
 ])

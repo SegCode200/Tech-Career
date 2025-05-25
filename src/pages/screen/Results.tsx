@@ -1,24 +1,44 @@
-import { motion } from "framer-motion";
-
-const results = [
-  {
-    career: "UI/UX Designer",
-    match: 92,
-    description: "Combines creativity and logic to design seamless digital experiences.",
-  },
-  {
-    career: "Software Developer",
-    match: 87,
-    description: "Builds and maintains applications and systems with code.",
-  },
-  {
-    career: "Product Manager",
-    match: 79,
-    description: "Leads product vision, working across teams to deliver value.",
-  },
-];
+import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
+import { TraitRadarChart } from './TraitRadarChart';
+import { setResults } from '../../store/assessmentSlice';
+import { FaStar } from 'react-icons/fa';
+import type { RootState } from '../../store';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function ResultsPage() {
+  const dispatch = useDispatch();
+  const results = useSelector((state: RootState) => state.assessment.results);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('career_results');
+    if (saved && !results) {
+      dispatch(setResults(JSON.parse(saved)));
+    }
+  }, [dispatch, results]);
+
+  console.log(results)
+  if (!results) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">No results found. Please complete the assessment first.</p>
+      </div>
+    );
+  }
+
+  const shareResults = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'My Tech Career Match Results',
+        url: window.location.href
+      });
+    } else {
+
+      toast.error('Sharing not supported on this device');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 px-4 py-12">
       <motion.div
@@ -32,7 +52,7 @@ export default function ResultsPage() {
         </h2>
 
         <div className="space-y-6">
-          {results.map((item, index) => (
+          {results.careerMatches.map((item: any, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, x: -20 }}
@@ -41,29 +61,51 @@ export default function ResultsPage() {
               className="border border-gray-200 rounded-lg p-4 bg-gray-50 hover:shadow-md transition"
             >
               <div className="flex justify-between items-center mb-1">
-                <h3 className="text-lg font-semibold text-[#605CFF]">{item.career}</h3>
-                <span className="text-sm text-gray-600">{item.match}% match</span>
+                <h3 className="text-lg font-semibold text-[#605CFF] flex items-center gap-2">
+                  <FaStar className="text-yellow-400" /> {item.name}
+                </h3>
+                <span className="text-sm text-gray-600">{item.score}% match</span>
               </div>
-              <p className="text-sm text-gray-700">{item.description}</p>
+              <p className="text-sm text-gray-700 mb-1">{item.description}</p>
+              <p className="text-xs text-gray-500">Key Traits: {item.keyTraits.join(', ')}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA Button */}
+        {/* Trait Radar Chart */}
+        {results.traits && (
+          <div className="mt-10">
+            <h3 className="text-lg font-semibold text-center text-gray-800 mb-4">Your Trait Profile</h3>
+            <TraitRadarChart traits={results.traits} traitMap={results.traitMap } />
+          </div>
+        )}
+
+        {/* CTA and Share */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
           className="mt-10 text-center"
         >
-          <a
-            href="#"
+          <button
+            onClick={shareResults}
             className="inline-block bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition"
           >
-            Explore Careers
-          </a>
+            Share My Results
+          </button>
         </motion.div>
       </motion.div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

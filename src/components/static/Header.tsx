@@ -48,12 +48,14 @@ const Header = () => {
           <a href="/" className="block hover:text-gray-500">Home</a>
           <a href="/about" className="block hover:text-gray-500">About</a>
           <a href="/contact" className="block hover:text-gray-500">Contact</a>
-          <a
-            href="/instructions"
-            className="inline-block mt-2 bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white px-4 py-2 rounded-3xl font-medium"
+          <Link to={"/instructions"}>
+          <div
+
+            className="bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white px-4 py-2 rounded-3xl font-medium hover:opacity-90 transition"
           >
             Get Started
-          </a>
+          </div>
+          </Link>
         </div>
       )}
     </header>

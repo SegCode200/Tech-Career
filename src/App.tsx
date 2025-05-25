@@ -2,6 +2,8 @@ import { RouterProvider } from "react-router-dom"
 import { mainRoute } from "./router/mainRoute"
 import { Provider } from "react-redux"
 import { store } from "./store/index"
+import 'react-toastify/dist/ReactToastify.css';
+
 // import { store } from "./store/index"
 
 const App = () => {
