@@ -1,41 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store";
+import {useQuestions} from "../../hooks/useQuestions"
 
 // Dummy Questions
-const questions = [
-  {
-    id: 1,
-    text: "When facing a new challenge, I prefer to:",
-    options: [
-      "Break it down into steps",
-      "Look for patterns",
-      "Imagine future possibilities",
-      "Consider impact on others",
-      "Research what others did",
-    ],
-  },
-  {
-    id: 2,
-    text: "I would rather work:",
-    options: [
-      "On one long-term project",
-      "On many varied tasks",
-      "Collaboratively in teams",
-      "Independently",
-      "In a hybrid style",
-    ],
-  },
-  // Add more as needed...
-];
+
 
 export default function AssessmentPage() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState(Array(questions.length).fill(null));
+  const { isLoading } = useQuestions();
+  const [answers, setAnswers] = useState<number[]>([]);
+  const questions = useSelector((state: RootState) => state.assessment.questions);
+  useEffect(() => {
+    if (questions.length > 0) {
+      setAnswers(Array(questions.length).fill(null));
+    }
+  }, [questions]);
+
 
   const currentQuestion = questions[currentIndex];
   const progressPercent = ((currentIndex + 1) / questions.length) * 100;
+
 
   const handleSelect = (index:any) => {
     const updated = [...answers];
@@ -54,14 +42,32 @@ export default function AssessmentPage() {
     } else {
       // Final submit
       const result = calculateCareerMatch();
-      navigate("/results", { state: { result } });
+      // navigate("/results", { state: { result } });
     }
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
   };
+  useEffect(() => {
+    if (questions.length > 0) {
+      setAnswers(Array(questions.length).fill(null));
+    }
+  }, [questions]);
+  const Spinner = () => (
+    <div className="flex justify-center items-center h-40">
+      <div className="w-12 h-12 border-4 border-[#8B59FF] border-dashed rounded-full animate-spin"></div>
+    </div>
+  );
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
+        <Spinner />
+      </div>
+    );
+  }
+  console.log(answers)
   const calculateCareerMatch = () => {
     // Replace this with real scoring logic
     return [
@@ -106,12 +112,12 @@ export default function AssessmentPage() {
 
         {/* Question */}
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-8">
-          {currentQuestion.text}
+          {currentQuestion?.text}
         </h2>
 
         {/* Options */}
         <div className="space-y-4">
-          {currentQuestion.options.map((option, i) => (
+          {currentQuestion?.options.map((option:any, i:any) => (
             <button
               key={i}
               onClick={() => handleSelect(i)}
@@ -121,7 +127,7 @@ export default function AssessmentPage() {
                   : "border-gray-300 text-gray-800 hover:border-[#605CFF]"
               }`}
             >
-              {option}
+              {option?.text}
             </button>
           ))}
         </div>
