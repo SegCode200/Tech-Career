@@ -24,15 +24,16 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
           className="text-black max-w-xl text-lg sm:text-xl text-center font-medium mb-2"
         >
-        Get more done, with less stress
+        Where your skills shine brightest
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.7 }}
-          className="text-6xl  text-center  sm:text-5xl md:text-6xl font-bold text-black mb-4 leading-tight"
+          className="text-5xl  text-center  sm:text-4xl md:text-5xl font-bold text-black mb-4 leading-tight"
         >
-        Discover Your <span className="text-[#605CFF]">Career Path</span>
+          
+        Find Your Ideal  <span className="text-[#605CFF]">Tech Career Path</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -40,8 +41,8 @@ const Hero = () => {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="text-black  mt-4 text-center text-base sm:text-lg  max-w-xl"
         >
-           
-      Feeling Stuck in Your Career? Unsure about your next step? At <span className="font-semibold">CareerTraits</span>, we help you uncover the tech path that aligns with your strengths, interests, and goals—so you can move forward with confidence.
+          
+      Take our comprehensive assessment to discover which technology careers align with your unique strengths, preferences, and working style.
         </motion.p>
         <Link to={"/instructions"}>
         <motion.div

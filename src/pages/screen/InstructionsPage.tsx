@@ -23,7 +23,7 @@ export default function InstructionsPage() {
           <div className="bg-[#605CFF] p-2 rounded-full text-white">
             <InformationCircleIcon className="h-6 w-6" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">Before You Begin</h2>
+          <h2 className="text-2xl font-bold max-sm:text-xl text-gray-800">Before You Begin</h2>
         </motion.div>
 
         {/* Instructions */}
@@ -31,7 +31,7 @@ export default function InstructionsPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="space-y-4 text-gray-700 text-base leading-relaxed"
+          className="space-y-4 text-gray-700 max-sm:text-[14px] text-base leading-relaxed"
         >
           <p>
             This assessment will take approximately{' '}
@@ -53,7 +53,7 @@ export default function InstructionsPage() {
         {/* Button */}
         <motion.button
           onClick={() => navigate('/assessment')}
-          className="mt-8 w-full bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white py-3 rounded-xl font-semibold text-lg shadow hover:opacity-90 transition cursor-pointer"
+          className="mt-8 w-full bg-gradient-to-r from-[#605CFF] to-[#8B59FF] text-white py-3 rounded-xl font-semibold text-lg shadow hover:opacity-90 transition cursor-pointer max-sm:text-base"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}

@@ -9,7 +9,7 @@ export default function SplashScreen() {
         transition={{ duration: 1 }}
         className="text-white text-4xl sm:text-5xl font-bold tracking-wide"
       >
-        CareerTraits
+        Karion
       </motion.div>
     </div>
   );

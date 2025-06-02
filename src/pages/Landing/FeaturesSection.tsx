@@ -33,7 +33,7 @@ export default function FeaturesSection() {
   return (
     <section className="bg-gray-50 py-16 px-4 sm:px-8 lg:px-16">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-[#8B59FF] mb-4">Why Use CareerTraits?</h2>
+        <h2 className="text-3xl font-bold text-[#8B59FF] mb-4">Why Use Karion ?</h2>
         <p className="text-gray-600 mb-12">
           Designed for aspiring technologists, career changers, and curious learners alike.
         </p>

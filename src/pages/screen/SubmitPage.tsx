@@ -5,42 +5,42 @@ import axios from 'axios';
 import { setResults } from '../../store/assessmentSlice';
 import { setEmail } from '../../store/userSlice';
 import { motion } from 'framer-motion';
-import { FaUser, FaEnvelope, FaArrowRight } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
+import { FaUser, FaEnvelope, FaPhone, FaArrowRight } from 'react-icons/fa';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 
+type ContactForm = {
+  name: string;
+  email: string;
+  phone?: string;
+};
 export default function SubmitPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [name, setName] = useState('');
-  const [email, setEmailInput] = useState('');
   const [loading, setLoading] = useState(false);
 
   const responses = location.state?.responses || [];
 
-  const handleSubmit = async () => {
-    if (!name || !email.includes('@')) {
-      ('Please enter your name and a valid email.');
-      return;
-    }
-    setLoading(true);
+  const { register, handleSubmit, formState: { errors } } = useForm<ContactForm>();
 
-    try {
-      const payload = { name, email, responses };
- 
-      const { data } = await axios.post('https://tech-assessment-backend.onrender.com/api/assessement/submit', payload);
+const onSubmit: SubmitHandler<ContactForm> = async (formData: { name: string; email: string; phone?: string }) => {
+  if (!responses || responses.length === 0) return;
 
-      dispatch(setEmail(email));
-      dispatch(setResults(data));
-      navigate('/results');
-    } catch (err) {
-      console.error(err);
-      toast.error('Failed to submit. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    const payload = { ...formData, responses };
+    const { data } = await axios.post('https://tech-assessment-backend.onrender.com/api/assessement/submit', payload);
+    dispatch(setEmail(formData.email));
+    dispatch(setResults(data));
+    navigate('/results');
+  } catch (err) {
+    console.error(err);
+    alert('Failed to submit. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 px-4">
@@ -51,44 +51,61 @@ export default function SubmitPage() {
         className="max-w-md w-full bg-white shadow-2xl rounded-xl p-8 sm:p-10"
       >
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8">
-          Let's Personalize Your Results
+          Get Your Personalized Results
         </h2>
 
-        <div className="space-y-5">
-          <div className="relative">
-            <FaUser className="absolute top-3.5 left-3 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              disabled={loading}
-              className="w-full pl-10 pr-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#605CFF]"
-            />
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+  <div className="relative">
+    <FaUser className="absolute top-3.5 left-3 text-gray-400" />
+    <input
+      type="text"
+      placeholder="Full Name"
+      {...register('name', { required: 'Full name is required' })}
+      disabled={loading}
+      className="w-full pl-10 pr-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#605CFF]"
+    />
+    {errors.name && <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>}
+  </div>
 
-          <div className="relative">
-            <FaEnvelope className="absolute top-3.5 left-3 text-gray-400" />
-            <input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmailInput(e.target.value)}
-              disabled={loading}
-              className="w-full pl-10 pr-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#605CFF]"
-            />
-          </div>
+  <div className="relative">
+    <FaEnvelope className="absolute top-3.5 left-3 text-gray-400" />
+    <input
+      type="email"
+      placeholder="you@example.com"
+      {...register('email', {
+        required: 'Email is required',
+        pattern: {
+          value: /^\S+@\S+$/i,
+          message: 'Invalid email address'
+        }
+      })}
+      disabled={loading}
+      className="w-full pl-10 pr-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#605CFF]"
+    />
+    {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>}
+  </div>
 
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className={`w-full py-3 rounded-lg font-semibold text-white text-sm flex items-center justify-center transition ${
-              loading
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-gradient-to-r from-[#605CFF] to-[#8B59FF] hover:opacity-90'
-            }`}
-          >
-            {loading ? (
+  <div className="relative">
+    <FaPhone className="absolute top-3.5 left-3 text-gray-400" />
+    <input
+      type="tel"
+      placeholder="Phone (optional)"
+      {...register('phone')}
+      disabled={loading}
+      className="w-full pl-10 pr-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#605CFF]"
+    />
+  </div>
+
+  <button
+    type="submit"
+    disabled={loading}
+    className={`w-full py-3 rounded-lg font-semibold text-white text-sm flex items-center justify-center transition ${
+      loading
+        ? 'bg-gray-400 cursor-not-allowed'
+        : 'bg-gradient-to-r from-[#605CFF] to-[#8B59FF] hover:opacity-90'
+    }`}
+  >
+       {loading ? (
               <span className="flex items-center gap-2">
                 <svg
                   className="animate-spin h-5 w-5 text-white"
@@ -117,21 +134,9 @@ export default function SubmitPage() {
                 View My Results <FaArrowRight className="ml-2" />
               </>
             )}
-          </button>
-         
-        </div>
+  </button>
+</form>
       </motion.div>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import InstructionsPage from "../pages/screen/InstructionsPage";
 import AssessmentPage from "../pages/screen/Assesment";
 import ResultsPage from "../pages/screen/Results";
 import SubmitPage from "../pages/screen/SubmitPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 
 export const mainRoute = createBrowserRouter([
@@ -35,5 +36,9 @@ export const mainRoute = createBrowserRouter([
   {
     path: "/submit",
     element: <SubmitPage/>
-  }
+  },
+  {
+  path: '*',
+  element: <NotFoundPage />,
+}
 ])

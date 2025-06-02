@@ -10,7 +10,7 @@ export default function Footer() {
         
         {/* Left: Logo & Tagline */}
         <div>
-          <h3 className="text-2xl font-bold mb-2">CareerTraits</h3>
+          <h3 className="text-2xl font-bold mb-2">Karion</h3>
           <p className="text-sm text-gray-400">
             Discover your ideal tech career path through personalized assessment and insights.
           </p>
@@ -33,7 +33,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-gray-300">
             <li className="flex items-center gap-2">
               <EnvelopeIcon className="h-5 w-5 text-purple-400" />
-              support@careertraits.com
+              support@Karion.com
             </li>
             <li className="flex items-center gap-2">
               <PhoneIcon className="h-5 w-5 text-purple-400" />
@@ -44,7 +44,7 @@ export default function Footer() {
       </div>
 
       <div className="mt-10 border-t border-gray-700 pt-4 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} CareerTraits. All rights reserved.
+        © {new Date().getFullYear()} Karion . All rights reserved.
       </div>
     </footer>
   );

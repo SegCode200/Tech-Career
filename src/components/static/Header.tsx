@@ -9,7 +9,7 @@ const Header = () => {
     <header className="w-full bg-white max-md:shadow-md fixed top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[70px] flex items-center justify-between">
         {/* Logo */}
-        <div className="text-2xl font-semibold uppercase text-black">CareerTrait</div>
+        <div className="text-2xl font-semibold uppercase text-black">Karion </div>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-6 text-black font-medium">

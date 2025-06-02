@@ -101,7 +101,7 @@ export default function AssessmentPage() {
         </div>
 
         {/* Question */}
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-8">
+        <h2 className="text-xl max-sm:text-lg font-semibold text-gray-800 text-center mb-8">
           {currentQuestion?.text}
         </h2>
 
@@ -111,7 +111,7 @@ export default function AssessmentPage() {
             <button
               key={i}
               onClick={() => handleSelect(i)}
-              className={`w-full text-left border rounded-lg px-4 py-3 transition ${
+              className={`w-full text-left border rounded-lg px-4 py-3 transition max-sm:text-sm ${
                 answers[currentIndex] === i
                   ? "border-[#605CFF] bg-[#F5F3FF] text-[#605CFF] font-semibold"
                   : "border-gray-300 text-gray-800 hover:border-[#605CFF]"
