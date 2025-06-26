@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch } from "react-redux";
 import { TraitRadarChart } from "./TraitRadarChart";
 import { setResults } from "../../store/assessmentSlice";
 import { FaStar } from "react-icons/fa";
