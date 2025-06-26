@@ -33,9 +33,9 @@ const onSubmit: SubmitHandler<ContactForm> = async (formData: { name: string; em
     const { data } = await axios.post('https://tech-assessment-backend.onrender.com/api/assessement/submit', payload);
     dispatch(setEmail(formData.email));
     dispatch(setResults(data));
-    navigate('/results');
+    navigate(`/results/${data.sessionId}`);
   } catch (err) {
-    console.error(err);
+    console.error(err); 
     alert('Failed to submit. Please try again.');
   } finally {
     setLoading(false);

@@ -1,28 +1,51 @@
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useSelector, useDispatch } from 'react-redux';
-import { TraitRadarChart } from './TraitRadarChart';
-import { setResults } from '../../store/assessmentSlice';
-import { FaStar } from 'react-icons/fa';
-import type { RootState } from '../../store';
-import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
+import { TraitRadarChart } from "./TraitRadarChart";
+import { setResults } from "../../store/assessmentSlice";
+import { FaStar } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { useUserResults } from "../../hooks/useQuestions";
 
 export default function ResultsPage() {
   const dispatch = useDispatch();
-  const results = useSelector((state: RootState) => state.assessment.results);
 
+  
+  const { token } = useParams();
+  const { results, isLoading, isError } = useUserResults(token);
+  console.log(token)
+  console.log("Results:", results);
+  const traitDescriptions = results?.traitDescriptions || {};
   useEffect(() => {
-    const saved = localStorage.getItem('career_results');
+    const saved = localStorage.getItem("career_results");
     if (saved && !results) {
       dispatch(setResults(JSON.parse(saved)));
     }
   }, [dispatch, results]);
+ const Spinner = () => (
+    <div className="flex justify-center items-center h-40">
+      <div className="w-12 h-12 border-4 border-[#8B59FF] border-dashed rounded-full animate-spin"></div>
+    </div>
+  );
+     if (isLoading) {
+     return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
+        <Spinner />
+      </div>
+    );
+  }
 
-  console.log(results)
+  if (isError || !results) {
+    return <p className="text-center mt-10 text-red-500">Unable to load results.</p>;
+  }
+  console.log(results);
   if (!results) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">No results found. Please complete the assessment first.</p>
+        <p className="text-gray-500">
+          No results found. Please complete the assessment first.
+        </p>
       </div>
     );
   }
@@ -30,14 +53,14 @@ export default function ResultsPage() {
   const shareResults = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'My Tech Career Match Results',
-        url: window.location.href
+        title: "My Tech Career Match Results",
+        url: window.location.href,
       });
     } else {
-
-      toast.error('Sharing not supported on this device');
+      toast.error("Sharing not supported on this device");
     }
   };
+ 
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 px-4 py-12">
@@ -64,10 +87,29 @@ export default function ResultsPage() {
                 <h3 className="text-lg font-semibold text-[#605CFF] flex items-center gap-2">
                   <FaStar className="text-yellow-400" /> {item.name}
                 </h3>
-                <span className="text-sm text-gray-600">{item.score}% match</span>
+                <span className="text-sm text-gray-600">
+                  {item.score}% match
+                </span>
               </div>
               <p className="text-sm text-gray-700 mb-1">{item.description}</p>
-              <p className="text-xs text-gray-500">Key Traits: {item.keyTraits.join(', ')}</p>
+               {/* <p className="text-xs text-gray-500">Key Traits: {item.keyTraits.join(', ')}</p> */}
+              {traitDescriptions[item.id] && (
+                <div className="mt-2">
+                  <p className="text-sm font-medium text-gray-600 mb-1">
+                    Why this matches you:
+                  </p>
+                  <ul className="list-disc pl-6 text-sm text-gray-700 space-y-1">
+                    {traitDescriptions[item.id]
+                      .slice(0, 3)
+                      .map((trait: any, i: number) => (
+                        <li key={i}>
+                          <strong>{trait.traitName}:</strong>{" "}
+                          {trait.description}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
@@ -75,8 +117,13 @@ export default function ResultsPage() {
         {/* Trait Radar Chart */}
         {results.traits && (
           <div className="mt-10">
-            <h3 className="text-lg font-semibold text-center text-gray-800 mb-4">Your Trait Profile</h3>
-            <TraitRadarChart traits={results.traits} traitMap={results.traitMap } />
+            <h3 className="text-lg font-semibold text-center text-gray-800 mb-4">
+              Your Trait Profile
+            </h3>
+            <TraitRadarChart
+              traits={results.traits}
+              traitMap={results.traitMap}
+            />
           </div>
         )}
 

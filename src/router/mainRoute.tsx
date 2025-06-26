@@ -30,7 +30,7 @@ export const mainRoute = createBrowserRouter([
     element: <AssessmentPage/>
   },
   {
-    path: "/results",
+    path: "/results/:token",
     element: <ResultsPage/>
   },
   {
