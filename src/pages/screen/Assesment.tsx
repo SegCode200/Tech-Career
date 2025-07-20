@@ -3,29 +3,64 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
-import {useQuestions} from "../../hooks/useQuestions"
-import { ToastContainer, toast } from 'react-toastify';
+import { useQuestions } from "../../hooks/useQuestions";
+import { ToastContainer, toast } from "react-toastify";
 
 // Dummy Questions
 
-
+const cheerMessages = [
+  {
+    threshold: 25,
+    message:
+      "🎉 25% Done! You’re off to a great start. Small steps lead to big things.",
+  },
+  {
+    threshold: 50,
+    message:
+      "🚀 50% Done! Keep it going. Make sure you complete all you set your mind to.",
+  },
+  {
+    threshold: 75,
+    message:
+      "💪 75% Done! Inspiration does exist, but it must find you working.",
+  },
+  {
+    threshold: 100,
+    message:
+      "🏁 Cheers! 100% Done! You’ve completed the questionnaire. You are resilient.",
+  },
+];
 export default function AssessmentPage() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const { isLoading } = useQuestions();
+  const [shownMilestones, setShownMilestones] = useState<number[]>([]);
+  const [cheerPrompt, setCheerPrompt] = useState<string | null>(null);
   const [answers, setAnswers] = useState<number[]>([]);
-  const questions = useSelector((state: RootState) => state.assessment.questions);
+  const questions = useSelector(
+    (state: RootState) => state.assessment.questions
+  );
   useEffect(() => {
     if (questions.length > 0) {
       setAnswers(Array(questions.length).fill(null));
     }
   }, [questions]);
+  useEffect(() => {
+    const percent = Math.floor(((currentIndex + 1) / questions.length) * 100);
+    const nextMilestone = cheerMessages.find(
+      (c) => percent >= c.threshold && !shownMilestones.includes(c.threshold)
+    );
 
+    if (nextMilestone) {
+      setCheerPrompt(nextMilestone.message);
+      setShownMilestones((prev) => [...prev, nextMilestone.threshold]);
+      setTimeout(() => setCheerPrompt(null), 4000); // auto-hide cheer after 4s
+    }
+  }, [currentIndex]);
   const currentQuestion = questions[currentIndex];
   const progressPercent = ((currentIndex + 1) / questions.length) * 100;
 
-
-  const handleSelect = (index:any) => {
+  const handleSelect = (index: any) => {
     const updated = [...answers];
     updated[currentIndex] = index;
     setAnswers(updated);
@@ -33,7 +68,7 @@ export default function AssessmentPage() {
 
   const handleNext = () => {
     if (answers[currentIndex] === null) {
-      toast.error('Please select an answer before continuing.');
+      toast.error("Please select an answer before continuing.");
       return;
     }
 
@@ -42,16 +77,16 @@ export default function AssessmentPage() {
     } else {
       const responses = questions.map((q, i) => ({
         questionId: q.id,
-        optionIndex: answers[i]
+        optionIndex: answers[i],
       }));
-      console.log(responses)
-      navigate('/submit', {
+      console.log(responses);
+      navigate("/submit", {
         state: {
           responses: questions.map((q, i) => ({
             questionId: q.id,
-            optionIndex: answers[i]
-          }))
-        }
+            optionIndex: answers[i],
+          })),
+        },
       });
     }
   };
@@ -77,7 +112,6 @@ export default function AssessmentPage() {
       </div>
     );
   }
- 
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
@@ -99,6 +133,16 @@ export default function AssessmentPage() {
             Question {currentIndex + 1} of {questions.length}
           </p>
         </div>
+        {cheerPrompt && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="my-4 px-4 py-3 bg-purple-50 border border-purple-200 text-purple-700 rounded-lg text-center text-sm sm:text-base"
+          >
+            {cheerPrompt}
+          </motion.div>
+        )}
 
         {/* Question */}
         <h2 className="text-xl max-sm:text-lg font-semibold text-gray-800 text-center mb-8">
@@ -107,7 +151,7 @@ export default function AssessmentPage() {
 
         {/* Options */}
         <div className="space-y-4">
-          {currentQuestion?.options.map((option:any, i:any) => (
+          {currentQuestion?.options.map((option: any, i: any) => (
             <button
               key={i}
               onClick={() => handleSelect(i)}
@@ -143,8 +187,8 @@ export default function AssessmentPage() {
           </button>
         </div>
       </motion.div>
-          <ToastContainer
-        position="bottom-center"
+      <ToastContainer
+        position="top-right"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -152,7 +196,8 @@ export default function AssessmentPage() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme="dark"
+        
       />
     </div>
   );

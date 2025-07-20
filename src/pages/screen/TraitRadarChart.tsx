@@ -19,7 +19,6 @@ export function TraitRadarChart({ traits, traitMap }: TraitRadarChartProps) {
       trait: traitMap[id] || id.slice(0, 6), // fallback if name not found
       score,
     }));
-    console.log(data)
   return (
     <div className="w-full h-80 mt-6">
       <ResponsiveContainer width="100%" height="100%">

@@ -26,7 +26,6 @@ export default function SubmitPage() {
 
 const onSubmit: SubmitHandler<ContactForm> = async (formData: { name: string; email: string; phone?: string }) => {
   if (!responses || responses.length === 0) return;
-
   setLoading(true);
   try {
     const payload = { ...formData, responses };

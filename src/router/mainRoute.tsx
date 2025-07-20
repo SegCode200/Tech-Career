@@ -7,38 +7,41 @@ import AssessmentPage from "../pages/screen/Assesment";
 import ResultsPage from "../pages/screen/Results";
 import SubmitPage from "../pages/screen/SubmitPage";
 import NotFoundPage from "../pages/NotFoundPage";
-
+import IntroPage from "../pages/IntroPage ";
 
 export const mainRoute = createBrowserRouter([
   {
-    path:"/",
-    element: <Layout/>,
+    path: "/",
+    element: <Layout />,
     children: [
       {
         index: true,
-        element: <LandIingScreen/>,
-
-      }
-    ]
+        element: <LandIingScreen />,
+      },
+    ],
   },
   {
     path: "/instructions",
-    element: <InstructionsPage/>
+    element: <InstructionsPage />,
+  },
+  {
+    path: "/intro",
+    element: <IntroPage />,
   },
   {
     path: "/assessment",
-    element: <AssessmentPage/>
+    element: <AssessmentPage />,
   },
   {
     path: "/results/:token",
-    element: <ResultsPage/>
+    element: <ResultsPage />,
   },
   {
     path: "/submit",
-    element: <SubmitPage/>
+    element: <SubmitPage />,
   },
   {
-  path: '*',
-  element: <NotFoundPage />,
-}
-])
+    path: "*",
+    element: <NotFoundPage />,
+  },
+]);

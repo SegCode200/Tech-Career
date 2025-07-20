@@ -29,7 +29,6 @@ export function useUserResults(token: string | undefined) {
     token ? `/api/assessement/${token}` : null,
    ()=> fetchers(token as string)
   );
-  console.log("User Results:", data);
   return {
     results: data,
     isLoading,

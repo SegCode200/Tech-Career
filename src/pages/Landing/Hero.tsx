@@ -44,7 +44,7 @@ const Hero = () => {
           
       Take our comprehensive assessment to discover which technology careers align with your unique strengths, preferences, and working style.
         </motion.p>
-        <Link to={"/instructions"}>
+        <Link to={"/intro"}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
