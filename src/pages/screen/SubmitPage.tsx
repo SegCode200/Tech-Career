@@ -29,7 +29,7 @@ const onSubmit: SubmitHandler<ContactForm> = async (formData: { name: string; em
   setLoading(true);
   try {
     const payload = { ...formData, responses };
-    const { data } = await axios.post('https://tech-assessment-backend.onrender.com/api/assessement/submit', payload);
+    const { data } = await axios.post('https://tech-assessment-backend-yuqj.onrender.com/api/assessement/submit', payload);
     dispatch(setEmail(formData.email));
     dispatch(setResults(data));
     navigate(`/results/${data.sessionId}`);
