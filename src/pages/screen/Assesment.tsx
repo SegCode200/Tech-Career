@@ -33,27 +33,27 @@ import { ToastContainer, toast } from "react-toastify";
 const cheerMessages = [
   {
     threshold: 25,
-    headline: "🎉 25% Done",
-    subtitle: "You’re off to a great start. Small steps lead to big things.",
-    note: "Let’s keep it moving!",
+    headline: "🎉 25% Done!",
+    subtitle: "You’re off to a great start",
+    note: ". Small steps lead to big things.",
   },
   {
     threshold: 50,
-    headline: "🚀50% Done",
-    subtitle: "You’re halfway there. Keep pushing forward!",
-    note: "You’ve got this 💪",
+    headline: "🚀50% Done!",
+    subtitle: "Keep it going!",
+    note: "Make sure you complete all you set your mind to.💪",
   },
   {
     threshold: 75,
-    headline: "💪 75% Done",
-    subtitle: "Inspiration does exist, but it must find you working.",
-    note: "Stay consistent!",
+    headline: "💪 75% Done!",
+    subtitle: "You are almost there",
+    note: "Inspiration does exist, but it must find you working.",
   },
   {
     threshold: 100,
-    headline: "🏁 100% Done",
-    subtitle: "You’ve completed the questionnaire. You are resilient.",
-    note: " Amazing effort!",
+    headline: "🏁 Cheers! ",
+    subtitle: "100% Done!",
+    note: "You’ve completed the questionnaire. You are resilient.",
   },
 ];
 
@@ -81,7 +81,7 @@ export default function AssessmentPage() {
     if (nextMilestone) {
       setCheerPrompt(nextMilestone);
       setShownMilestones((prev) => [...prev, nextMilestone.threshold]);
-      setTimeout(() => setCheerPrompt(null), 4000); // auto-hide cheer after 4s
+      setTimeout(() => setCheerPrompt(null), 5000); // auto-hide cheer after 4s
     }
   }, [currentIndex]);
   const currentQuestion = questions[currentIndex];
