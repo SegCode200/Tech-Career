@@ -17,7 +17,7 @@ export default function CallToAction() {
         <p className="mb-8 text-lg">
           Take our personalized assessment and get career insights tailored to you.
         </p>
-        <Link to={"/instructions"}>
+        <Link to={"/intro"}>
         <div
           className="inline-block bg-white text-purple-700 font-semibold px-6 py-3 rounded-full shadow hover:bg-gray-100 transition"
         >
